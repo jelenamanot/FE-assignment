@@ -17,12 +17,13 @@ class CurrencyInputs extends Component {
     switch(this.state.searchType) {
       case 'eur':
         this.setState({
-          calcultedValue: INITIAL_VALUE * nextProps.eur
+          //nextProps = this.props.eur
+          calcultedValue: (INITIAL_VALUE * nextProps.eur).toFixed(2)
         });
         break;
       case 'usd':
         this.setState({
-          calcultedValue: INITIAL_VALUE * nextProps.usd
+          calcultedValue: (INITIAL_VALUE * nextProps.usd).toFixed(2)
         });
         break;
       case 'rsd':
@@ -63,27 +64,71 @@ class CurrencyInputs extends Component {
   }
 
   updateSelect(e) {
+    let usd = (this.state.inputValue * this.props.usd).toFixed(2);
+    let eur = (this.state.inputValue * this.props.eur).toFixed(2);
+    let rsd = (this.state.inputValue * INITIAL_VALUE).toFixed(2);
+
     this.setState({
-        searchType: e.target.value,
-        inputValue: '',
-        calcultedValue: ''
+      searchType: e.target.value,
+      inputValue: this.state.inputValue
     });
+
+    if(e.target.value === 'eur') {
+      this.setState({
+        calcultedValue: eur
+      });
+    } else if(e.target.value === 'usd') {
+      this.setState({
+        calcultedValue: usd
+      });
+    } else if(e.target.value === 'rsd') {
+      this.setState({
+        calcultedValue: rsd
+      });
+  }
 }
 
+  test(){
+    let x;
+    switch(this.state.searchType) {
+      case 'eur':
+        x = (this.state.inputValue * this.props.eur).toFixed(2);
+        break;
+      case 'usd':
+        x = (this.state.inputValue * this.props.usd).toFixed(2);
+        break;
+      case 'rsd':
+        x = (this.state.inputValue * INITIAL_VALUE).toFixed(2);
+        break;
+      default:
+        return x
+    }
+    return x
+  }
+
   resetButton(){
-      this.setState({
-        inputValue: INITIAL_VALUE,
-        calcultedValue: INITIAL_VALUE * this.props.eur,
-        searchType: 'eur'
-      });
+    this.setState({
+      inputValue: INITIAL_VALUE,
+      calcultedValue: (INITIAL_VALUE * this.props.eur).toFixed(2),
+      searchType: 'eur'
+    });
+  }
+
+  warning(){
+    if(isNaN(this.state.calcultedValue)) {
+      return <p className="warning">Please enter a number</p>
+    } else {
+      return <p className="hide"></p>
+    }
   }
 
   render() {
+
     return(
       <div>
         <section className="row col-md-12">
 
-          <div className="col-md-5">
+          <div className="col-md-5 all-currency-inputs">
             <div className="form-group align">
               <select 
                 className="styled-select" 
@@ -104,13 +149,14 @@ class CurrencyInputs extends Component {
                 value={this.state.inputValue}
                 />
             </div>
+
+           {this.warning()}
           </div>
 
-          <div className="col-md-2">
-            <img src="" alt="swap" />
+          <div className="col-md-2 swap all-currency-inputs"><img src={require('../swap.svg')}  alt="swap" />
           </div>
 
-          <div className="col-md-5">
+          <div className="col-md-5 all-currency-inputs">
             <div className="form-group align">
               <select className="styled-select" defaultValue="RSD">
                 <option>EUR</option>
@@ -131,7 +177,7 @@ class CurrencyInputs extends Component {
         </section>
 
         <section className="row">
-          <button onClick={() => this.resetButton() } className="reset-btn">Reset</button>
+          <button onClick={() => this.resetButton()} className="reset-btn">Reset</button>
         </section>
       </div>
     );

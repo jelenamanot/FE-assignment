@@ -29,13 +29,12 @@ class App extends Component {
     return (
       <div className="App container">
         <h1>Currency Converter</h1>
-        <p>On day: {this.state.date}. </p>
+        <p>On: {this.state.date}. </p>
 
         <CurrencyInputs 
           eur={this.state.eur.sre}
           usd={this.state.usd.sre}
         />
- 
       </div>
     );
   }
