@@ -1,3 +1,4 @@
+/* Colors */
 :root {
   --bg-color: #5fbcd3;
   --reset-color: #2c89a0;
@@ -7,6 +8,7 @@
   --dark-gray: #5b5b5b;
 }
 
+/* Base */
 body {
   margin: 0;
   padding: 0;
@@ -14,8 +16,8 @@ body {
   background-color: var(--bg-color);
   color: #ffffff;
 }
-h1 {text-transform: uppercase;}
-/* Button */
+
+/* Button reset */
 .reset-btn {
   background-color: var(--reset-color);
   color: #ffffff;
@@ -27,6 +29,7 @@ h1 {text-transform: uppercase;}
   margin: 0 auto;
   cursor: pointer;
 }
+
 .reset-btn:hover {
   background-color: #227488;
   transition: all 0.3s ease;
