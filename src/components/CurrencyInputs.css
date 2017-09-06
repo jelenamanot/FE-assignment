@@ -1,0 +1,19 @@
+.align {
+  display: inline-block;
+}
+
+.currency-input {
+  border: 1px solid var(--light-gray);
+  color: var(--dark-gray);
+  font-weight: bold;
+}
+.currency-input:focus {
+  box-shadow: inset 2px 2px 20px 8px var(--focus-color);
+  border: 1px solid var(--border-color);
+}
+
+.styled-select {
+  height: 38px;
+  border-radius: 4px;
+  border: 1px solid var(--light-gray);
+}
