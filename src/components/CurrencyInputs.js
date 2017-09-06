@@ -9,12 +9,13 @@ class CurrencyInputs extends Component {
     this.state = {
       inputValue: INITIAL_VALUE,
       calcultedValue: '',
-      searchType: 'eur'
+      searchTypeLeft: 'eur',
+      searchTypeRight: 'rsd'
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    switch(this.state.searchType) {
+    switch(this.state.searchTypeLeft) {
       case 'eur':
         this.setState({
           //nextProps = this.props.eur
@@ -41,7 +42,7 @@ class CurrencyInputs extends Component {
     let usdToRsd = (this.state.inputValue * this.props.usd).toFixed(2);
     let rsdToRsd = this.state.inputValue * 1;
 
-    switch(this.state.searchType) {
+    switch(this.state.searchTypeLeft) {
       case 'eur':
         this.setState({
           calcultedValue: eurToRsd
@@ -63,13 +64,13 @@ class CurrencyInputs extends Component {
 
   }
 
-  updateSelect(e) {
+  updateLeftSelect(e) {
     let usd = (this.state.inputValue * this.props.usd).toFixed(2);
     let eur = (this.state.inputValue * this.props.eur).toFixed(2);
     let rsd = (this.state.inputValue * INITIAL_VALUE).toFixed(2);
 
     this.setState({
-      searchType: e.target.value,
+      searchTypeLeft: e.target.value,
       inputValue: this.state.inputValue
     });
 
@@ -88,29 +89,17 @@ class CurrencyInputs extends Component {
   }
 }
 
-  test(){
-    let x;
-    switch(this.state.searchType) {
-      case 'eur':
-        x = (this.state.inputValue * this.props.eur).toFixed(2);
-        break;
-      case 'usd':
-        x = (this.state.inputValue * this.props.usd).toFixed(2);
-        break;
-      case 'rsd':
-        x = (this.state.inputValue * INITIAL_VALUE).toFixed(2);
-        break;
-      default:
-        return x
-    }
-    return x
-  }
+updateRightSelect(e) {
+  this.setState({
+    searchTypeRight: e.target.value,
+  });
+}
 
   resetButton(){
     this.setState({
       inputValue: INITIAL_VALUE,
       calcultedValue: (INITIAL_VALUE * this.props.eur).toFixed(2),
-      searchType: 'eur'
+      searchTypeLeft: 'eur'
     });
   }
 
@@ -122,8 +111,21 @@ class CurrencyInputs extends Component {
     }
   }
 
-  render() {
+  //  SELECT DISABLED FUNCTIONS 
+  disableSelectRight(valueLeft){
+    if(valueLeft !== this.state.searchTypeLeft) {
+      return false;
+    }
+    return true;
+  }
+  disableSelectLeft(valueRight){
+    if(valueRight !== this.state.searchTypeRight) {
+      return false;
+    }
+    return true;
+  }
 
+  render() {
     return(
       <div>
         <section className="row col-md-12">
@@ -132,12 +134,12 @@ class CurrencyInputs extends Component {
             <div className="form-group align">
               <select 
                 className="styled-select" 
-                defaultValue="EUR"
-                onChange={this.updateSelect.bind(this)}
+                defaultValue={this.state.searchTypeLeft}
+                onChange={this.updateLeftSelect.bind(this)}
               >
-                <option value="eur">EUR</option>
-                <option value="rsd">RSD</option>
-                <option value="usd">USD</option>
+                <option value="eur" disabled={this.disableSelectLeft('eur')}> EUR </option>
+                <option value="rsd" disabled={this.disableSelectLeft('rsd')}> RSD </option>
+                <option value="usd" disabled={this.disableSelectLeft('usd')}> USD </option>
               </select>
             </div>
             <div className="form-group align">
@@ -158,10 +160,14 @@ class CurrencyInputs extends Component {
 
           <div className="col-md-5 all-currency-inputs">
             <div className="form-group align">
-              <select className="styled-select" defaultValue="RSD">
-                <option>EUR</option>
-                <option>RSD</option>
-                <option>USD</option>
+              <select 
+                className="styled-select" 
+                defaultValue={this.state.searchTypeRight}
+                onChange={this.updateRightSelect.bind(this)}
+              >
+                  <option value="eur" disabled={this.disableSelectRight('eur')}> EUR </option>
+                  <option value="rsd" disabled={this.disableSelectRight('rsd')}> RSD </option>
+                  <option value="usd" disabled={this.disableSelectRight('usd')}> USD </option>
               </select>
             </div>
             <div className="form-group align">
