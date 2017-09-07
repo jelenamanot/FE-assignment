@@ -89,11 +89,11 @@ class CurrencyInputs extends Component {
   }
 }
 
-updateRightSelect(e) {
-  this.setState({
-    searchTypeRight: e.target.value,
-  });
-}
+  updateRightSelect(e) {
+    this.setState({
+      searchTypeRight: e.target.value,
+    });
+  }
 
   resetButton(){
     this.setState({
@@ -128,8 +128,8 @@ updateRightSelect(e) {
   render() {
     return(
       <div>
-        <section className="row col-md-12">
-
+        <section className="row">
+        
           <div className="col-md-5 all-currency-inputs">
             <div className="form-group align">
               <select 
