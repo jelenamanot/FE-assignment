@@ -14,6 +14,7 @@ class CurrencyInputs extends Component {
     }
   }
 
+  // Initial
   componentWillReceiveProps(nextProps) {
     switch(this.state.searchTypeLeft) {
       case 'eur':
