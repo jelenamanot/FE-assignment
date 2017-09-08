@@ -31,7 +31,6 @@ img {
   cursor: pointer;
 }
 
-
 /* Warning */
 .hide {
   display: none;
@@ -41,10 +40,14 @@ img {
 }
 
 /* Responsive swap button rotation */
-@media only screen and (max-width: 867px) {
+@media only screen and (max-width: 767px) {
   img {
     -ms-transform: rotate(90deg); /* IE 9 */
     -webkit-transform: rotate(90deg); /* Safari */
     transform: rotate(90deg);
+  }
+
+  .all-currency-inputs {
+    margin: 20px 0;
   }
 }
