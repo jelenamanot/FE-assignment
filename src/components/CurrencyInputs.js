@@ -14,86 +14,60 @@ class CurrencyInputs extends Component {
     }
   }
 
-  // Initial
-  componentWillReceiveProps(nextProps) {
-    switch(this.state.searchTypeLeft) {
-      case 'eur':
-        this.setState({
-          //nextProps = this.props.eur
-          calcultedValue: (INITIAL_VALUE * nextProps.eur).toFixed(2)
-        });
-        break;
-      case 'usd':
-        this.setState({
-          calcultedValue: (INITIAL_VALUE * nextProps.usd).toFixed(2)
-        });
-        break;
-      case 'rsd':
-        this.setState({
-          calcultedValue: INITIAL_VALUE * 1
-        });
-        break;
-      default:
-        return null
-    }
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      inputValue: INITIAL_VALUE,
+      calcultedValue: (INITIAL_VALUE * nextProps.eur).toFixed(2),
+      searchTypeLeft: 'eur'
+    });
   }
-  
-  calc() {
-    let eurToRsd = (this.state.inputValue * this.props.eur).toFixed(2);
-    let usdToRsd = (this.state.inputValue * this.props.usd).toFixed(2);
-    let rsdToRsd = this.state.inputValue * 1;
 
-    switch(this.state.searchTypeLeft) {
-      case 'eur':
-        this.setState({
-          calcultedValue: eurToRsd
-        });
-        break;
-      case 'usd':
-        this.setState({
-          calcultedValue: usdToRsd
-        });
-        break;
-      case 'rsd':
-        this.setState({
-          calcultedValue: rsdToRsd
-        });
-        break;
-      default:
-        return null
+  // CALCULATED REUSABLE FUNCTION
+  calc(left, right){
+    const { inputValue } = this.state;
+    const { eur, usd } = this.props;
+
+    let sameToSame = inputValue;
+    let eur_rsd = (inputValue * eur).toFixed(2);
+    let eur_usd = (inputValue * (eur / usd)).toFixed(2);
+    let usd_rsd = (inputValue * usd).toFixed(2);
+    let usd_eur = (inputValue * (usd / eur)).toFixed(2);
+    let rsd_eur = (inputValue * (INITIAL_VALUE / eur)).toFixed(2);
+    let rsd_usd = (inputValue * (INITIAL_VALUE / usd)).toFixed(2);
+
+    if(left === right) {
+      this.setState({calcultedValue: sameToSame}) 
+    } else if(left === 'eur' && right === 'rsd'){
+      this.setState({calcultedValue: eur_rsd}) 
+    } else if(left === 'eur' && right === 'usd'){
+      this.setState({calcultedValue: eur_usd}) 
+    } else if(left === 'usd' && right === 'rsd') {
+      this.setState({calcultedValue: usd_rsd}) 
+    } else if(left === 'usd' && right === 'eur') {
+      this.setState({calcultedValue: usd_eur}) 
+    } else if(left === 'rsd' && right === 'eur') {
+      this.setState({calcultedValue: rsd_eur}) 
+    } else if(left === 'rsd' && right === 'usd') {
+      this.setState({calcultedValue: rsd_usd}) 
     }
-
   }
 
   updateLeftSelect(e) {
-    let usd = (this.state.inputValue * this.props.usd).toFixed(2);
-    let eur = (this.state.inputValue * this.props.eur).toFixed(2);
-    let rsd = (this.state.inputValue * INITIAL_VALUE).toFixed(2);
-
     this.setState({
       searchTypeLeft: e.target.value,
-      inputValue: this.state.inputValue
     });
 
-    if(e.target.value === 'eur') {
-      this.setState({
-        calcultedValue: eur
-      });
-    } else if(e.target.value === 'usd') {
-      this.setState({
-        calcultedValue: usd
-      });
-    } else if(e.target.value === 'rsd') {
-      this.setState({
-        calcultedValue: rsd
-      });
-  }
+    const { searchTypeRight } = this.state;
+    this.calc(e.target.value, searchTypeRight)
 }
 
   updateRightSelect(e) {
     this.setState({
       searchTypeRight: e.target.value,
     });
+
+    const { searchTypeLeft } = this.state;
+    this.calc(searchTypeLeft, e.target.value);
   }
 
   resetButton(){
@@ -146,7 +120,7 @@ class CurrencyInputs extends Component {
             <div className="form-group align">
               <input 
                 onChange={event => {this.setState({inputValue: event.target.value})}}
-                onKeyUp={() => this.calc()}
+                onKeyUp={() => this.calc(this.state.searchTypeLeft, this.state.searchTypeRight)}
                 type="text" 
                 className="form-control currency-input"
                 value={this.state.inputValue}
@@ -173,7 +147,6 @@ class CurrencyInputs extends Component {
             </div>
             <div className="form-group align">
               <input 
-                onChange={() => null}
                 type="text"
                 value={this.state.calcultedValue}
                 className="form-control currency-input" 
