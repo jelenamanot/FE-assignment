@@ -1,0 +1,84 @@
+.all-currency-inputs {
+  margin: 50px 0;
+}
+
+/* Align select and input field */
+.align {
+  display: inline-block;
+}
+
+/* Currency input field */
+.currency-input {
+  border: 1px solid #cbcfd0;
+  color: #5b5b5b;
+  font-weight: bold;
+  direction: rtl;
+}
+
+.currency-input:focus {
+  -webkit-box-shadow: inset 2px 2px 20px 8px #7de5ff;
+  box-shadow: inset 2px 2px 20px 8px #7de5ff;
+  border: 1px solid #7de5ff;
+}
+
+/* Select */
+.styled-select {
+  height: 38px;
+  border-radius: 4px;
+  border: 1px solid #cbcfd0;
+}
+
+img {
+  cursor: pointer;
+}
+
+/* Warning */
+.hide {
+  display: none;
+}
+.warning {
+  color: red;
+}
+
+/* Button reset */
+.reset-btn {
+  background-color: #2c89a0;
+  color: #ffffff;
+  padding: 5px 0;
+  width: 175px;
+  border: none;
+  border-radius: 3px;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background-color: #227488;
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+/* Responsive swap button rotation */
+@media only screen and (max-width: 767px) {
+  img {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Safari */
+    transform: rotate(90deg);
+  }
+
+  .all-currency-inputs {
+    margin: 20px 0;
+  }
+
+  .reset-btn {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 340px) {
+  .reset-btn {
+    width: 80%;
+  }
+}

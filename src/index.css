@@ -1,36 +1,27 @@
-/* Colors */
-:root {
-  --bg-color: #5fbcd3;
-  --reset-color: #2c89a0;
-  --focus-color: #7de5ff;
-  --border-color: #00aad4;
-  --light-gray: #cbcfd0;
-  --dark-gray: #5b5b5b;
-}
+/* 
+      Colors
+bg-color: #5fbcd3
+reset-color: #2c89a0
+focus-color: #7de5ff
+border-color: #00aad4
+light-gray: #cbcfd0
+dark-gray: #5b5b5b
+*/
 
 /* Base */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Open Sans', sans-serif;
-  background-color: var(--bg-color);
+  background-color: #5fbcd3;
   color: #ffffff;
 }
 
-/* Button reset */
-.reset-btn {
-  background-color: var(--reset-color);
-  color: #ffffff;
-  padding: 5px 0;
-  width: 175px;
-  border: none;
-  border-radius: 3px;
-  display: block;
-  margin: 0 auto;
-  cursor: pointer;
+.App {
+  margin-top: 8%;
+  margin-bottom: 8%;
+  text-align: center;
 }
-
-.reset-btn:hover {
-  background-color: #227488;
-  transition: all 0.3s ease;
+h1 {
+  text-transform: uppercase;
 }

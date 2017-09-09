@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './CurrencyInputs.css';
+import './CurrencyFormStyle.css';
 
 const INITIAL_VALUE = 1;
 
-class CurrencyInputs extends Component {
+class CurrencyForm extends Component {
   constructor() {
     super();
     this.state = {
@@ -14,88 +14,65 @@ class CurrencyInputs extends Component {
     }
   }
 
-  // Initial
-  componentWillReceiveProps(nextProps) {
-    switch(this.state.searchTypeLeft) {
-      case 'eur':
-        this.setState({
-          //nextProps = this.props.eur
-          calcultedValue: (INITIAL_VALUE * nextProps.eur).toFixed(2)
-        });
-        break;
-      case 'usd':
-        this.setState({
-          calcultedValue: (INITIAL_VALUE * nextProps.usd).toFixed(2)
-        });
-        break;
-      case 'rsd':
-        this.setState({
-          calcultedValue: INITIAL_VALUE * 1
-        });
-        break;
-      default:
-        return null
-    }
-  }
-  
-  calc() {
-    let eurToRsd = (this.state.inputValue * this.props.eur).toFixed(2);
-    let usdToRsd = (this.state.inputValue * this.props.usd).toFixed(2);
-    let rsdToRsd = this.state.inputValue * 1;
-
-    switch(this.state.searchTypeLeft) {
-      case 'eur':
-        this.setState({
-          calcultedValue: eurToRsd
-        });
-        break;
-      case 'usd':
-        this.setState({
-          calcultedValue: usdToRsd
-        });
-        break;
-      case 'rsd':
-        this.setState({
-          calcultedValue: rsdToRsd
-        });
-        break;
-      default:
-        return null
-    }
-
+  // Receive intial props
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      inputValue: INITIAL_VALUE,
+      calcultedValue: (INITIAL_VALUE * nextProps.eur).toFixed(2),
+      searchTypeLeft: 'eur'
+    });
   }
 
+  // CALCULATED REUSABLE FUNCTION
+  calc(leftSelect, rightSelect){
+    const { inputValue } = this.state;
+    const { eur, usd } = this.props;
+
+    let sameToSame = inputValue;
+    let eur_rsd = (inputValue * eur).toFixed(2);
+    let eur_usd = (inputValue * (eur / usd)).toFixed(2);
+    let usd_rsd = (inputValue * usd).toFixed(2);
+    let usd_eur = (inputValue * (usd / eur)).toFixed(2);
+    let rsd_eur = (inputValue * (INITIAL_VALUE / eur)).toFixed(2);
+    let rsd_usd = (inputValue * (INITIAL_VALUE / usd)).toFixed(2);
+
+    if(leftSelect === rightSelect) {
+      this.setState({calcultedValue: sameToSame}) 
+    } else if(leftSelect === 'eur' && rightSelect === 'rsd'){
+      this.setState({calcultedValue: eur_rsd}) 
+    } else if(leftSelect === 'eur' && rightSelect === 'usd'){
+      this.setState({calcultedValue: eur_usd}) 
+    } else if(leftSelect === 'usd' && rightSelect === 'rsd') {
+      this.setState({calcultedValue: usd_rsd}) 
+    } else if(leftSelect === 'usd' && rightSelect === 'eur') {
+      this.setState({calcultedValue: usd_eur}) 
+    } else if(leftSelect === 'rsd' && rightSelect === 'eur') {
+      this.setState({calcultedValue: rsd_eur}) 
+    } else if(leftSelect === 'rsd' && rightSelect === 'usd') {
+      this.setState({calcultedValue: rsd_usd}) 
+    }
+  }
+
+  // Follow state of two select areas
   updateLeftSelect(e) {
-    let usd = (this.state.inputValue * this.props.usd).toFixed(2);
-    let eur = (this.state.inputValue * this.props.eur).toFixed(2);
-    let rsd = (this.state.inputValue * INITIAL_VALUE).toFixed(2);
-
     this.setState({
       searchTypeLeft: e.target.value,
-      inputValue: this.state.inputValue
     });
 
-    if(e.target.value === 'eur') {
-      this.setState({
-        calcultedValue: eur
-      });
-    } else if(e.target.value === 'usd') {
-      this.setState({
-        calcultedValue: usd
-      });
-    } else if(e.target.value === 'rsd') {
-      this.setState({
-        calcultedValue: rsd
-      });
+    const { searchTypeRight } = this.state;
+    this.calc(e.target.value, searchTypeRight)
   }
-}
 
   updateRightSelect(e) {
     this.setState({
       searchTypeRight: e.target.value,
     });
+
+    const { searchTypeLeft } = this.state;
+    this.calc(searchTypeLeft, e.target.value);
   }
 
+  // Back to initial state
   resetButton(){
     this.setState({
       inputValue: INITIAL_VALUE,
@@ -104,6 +81,7 @@ class CurrencyInputs extends Component {
     });
   }
 
+  // Message for user if the input is not number
   warning(){
     if(isNaN(this.state.calcultedValue)) {
       return <p className="warning">Please enter a number</p>
@@ -112,18 +90,19 @@ class CurrencyInputs extends Component {
     }
   }
 
-  //  SELECT DISABLED FUNCTIONS 
-  disableSelectRight(valueLeft){
-    if(valueLeft !== this.state.searchTypeLeft) {
-      return false;
+  //  Disable certain select based on choosen option
+  disableSelectLeft(valueLeft){
+    if(valueLeft !== this.state.searchTypeRight) {
+      return false; //enable
     }
-    return true;
+    return true; //disable
   }
-  disableSelectLeft(valueRight){
-    if(valueRight !== this.state.searchTypeRight) {
-      return false;
+
+  disableSelectRight(valueRight){
+    if(valueRight !== this.state.searchTypeLeft) {
+      return false; //enable
     }
-    return true;
+    return true; //disable
   }
 
   render() {
@@ -146,7 +125,7 @@ class CurrencyInputs extends Component {
             <div className="form-group align">
               <input 
                 onChange={event => {this.setState({inputValue: event.target.value})}}
-                onKeyUp={() => this.calc()}
+                onKeyUp={() => this.calc(this.state.searchTypeLeft, this.state.searchTypeRight)}
                 type="text" 
                 className="form-control currency-input"
                 value={this.state.inputValue}
@@ -173,7 +152,7 @@ class CurrencyInputs extends Component {
             </div>
             <div className="form-group align">
               <input 
-                onChange={() => null}
+                disabled
                 type="text"
                 value={this.state.calcultedValue}
                 className="form-control currency-input" 
@@ -190,4 +169,4 @@ class CurrencyInputs extends Component {
     );
   }
 }
-export default CurrencyInputs;
+export default CurrencyForm;
