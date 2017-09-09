@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './AppStyle.css';
 
 import CurrencyService from './Service';
 import CurrencyForm from './CurrencyForm';

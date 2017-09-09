@@ -97,7 +97,7 @@ class CurrencyForm extends Component {
     }
     return true; //disable
   }
-  
+
   disableSelectRight(valueRight){
     if(valueRight !== this.state.searchTypeLeft) {
       return false; //enable

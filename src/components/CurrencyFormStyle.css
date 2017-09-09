@@ -40,6 +40,26 @@ img {
   color: red;
 }
 
+/* Button reset */
+.reset-btn {
+  background-color: #2c89a0;
+  color: #ffffff;
+  padding: 5px 0;
+  width: 175px;
+  border: none;
+  border-radius: 3px;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.reset-btn:hover {
+  background-color: #227488;
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
 /* Responsive swap button rotation */
 @media only screen and (max-width: 767px) {
   img {
@@ -50,5 +70,15 @@ img {
 
   .all-currency-inputs {
     margin: 20px 0;
+  }
+
+  .reset-btn {
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 340px) {
+  .reset-btn {
+    width: 80%;
   }
 }

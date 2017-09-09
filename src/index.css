@@ -17,22 +17,11 @@ body {
   color: #ffffff;
 }
 
-/* Button reset */
-.reset-btn {
-  background-color: #2c89a0;
-  color: #ffffff;
-  padding: 5px 0;
-  width: 175px;
-  border: none;
-  border-radius: 3px;
-  display: block;
-  margin: 0 auto;
-  cursor: pointer;
+.App {
+  margin-top: 8%;
+  margin-bottom: 8%;
+  text-align: center;
 }
-
-.reset-btn:hover {
-  background-color: #227488;
-  -webkit-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
+h1 {
+  text-transform: uppercase;
 }
