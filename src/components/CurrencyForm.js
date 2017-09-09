@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './CurrencyInputs.css';
+import './CurrencyFormStyle.css';
 
 const INITIAL_VALUE = 1;
 
-class CurrencyInputs extends Component {
+class CurrencyForm extends Component {
   constructor() {
     super();
     this.state = {
@@ -14,6 +14,7 @@ class CurrencyInputs extends Component {
     }
   }
 
+  // Receive intial props
   componentWillReceiveProps(nextProps){
     this.setState({
       inputValue: INITIAL_VALUE,
@@ -23,7 +24,7 @@ class CurrencyInputs extends Component {
   }
 
   // CALCULATED REUSABLE FUNCTION
-  calc(left, right){
+  calc(leftSelect, rightSelect){
     const { inputValue } = this.state;
     const { eur, usd } = this.props;
 
@@ -35,23 +36,24 @@ class CurrencyInputs extends Component {
     let rsd_eur = (inputValue * (INITIAL_VALUE / eur)).toFixed(2);
     let rsd_usd = (inputValue * (INITIAL_VALUE / usd)).toFixed(2);
 
-    if(left === right) {
+    if(leftSelect === rightSelect) {
       this.setState({calcultedValue: sameToSame}) 
-    } else if(left === 'eur' && right === 'rsd'){
+    } else if(leftSelect === 'eur' && rightSelect === 'rsd'){
       this.setState({calcultedValue: eur_rsd}) 
-    } else if(left === 'eur' && right === 'usd'){
+    } else if(leftSelect === 'eur' && rightSelect === 'usd'){
       this.setState({calcultedValue: eur_usd}) 
-    } else if(left === 'usd' && right === 'rsd') {
+    } else if(leftSelect === 'usd' && rightSelect === 'rsd') {
       this.setState({calcultedValue: usd_rsd}) 
-    } else if(left === 'usd' && right === 'eur') {
+    } else if(leftSelect === 'usd' && rightSelect === 'eur') {
       this.setState({calcultedValue: usd_eur}) 
-    } else if(left === 'rsd' && right === 'eur') {
+    } else if(leftSelect === 'rsd' && rightSelect === 'eur') {
       this.setState({calcultedValue: rsd_eur}) 
-    } else if(left === 'rsd' && right === 'usd') {
+    } else if(leftSelect === 'rsd' && rightSelect === 'usd') {
       this.setState({calcultedValue: rsd_usd}) 
     }
   }
 
+  // Follow state of two select areas
   updateLeftSelect(e) {
     this.setState({
       searchTypeLeft: e.target.value,
@@ -59,7 +61,7 @@ class CurrencyInputs extends Component {
 
     const { searchTypeRight } = this.state;
     this.calc(e.target.value, searchTypeRight)
-}
+  }
 
   updateRightSelect(e) {
     this.setState({
@@ -70,6 +72,7 @@ class CurrencyInputs extends Component {
     this.calc(searchTypeLeft, e.target.value);
   }
 
+  // Back to initial state
   resetButton(){
     this.setState({
       inputValue: INITIAL_VALUE,
@@ -78,6 +81,7 @@ class CurrencyInputs extends Component {
     });
   }
 
+  // Message for user if the input is not number
   warning(){
     if(isNaN(this.state.calcultedValue)) {
       return <p className="warning">Please enter a number</p>
@@ -86,18 +90,19 @@ class CurrencyInputs extends Component {
     }
   }
 
-  //  SELECT DISABLED FUNCTIONS 
-  disableSelectRight(valueLeft){
-    if(valueLeft !== this.state.searchTypeLeft) {
-      return false;
+  //  Disable certain select based on choosen option
+  disableSelectLeft(valueLeft){
+    if(valueLeft !== this.state.searchTypeRight) {
+      return false; //enable
     }
-    return true;
+    return true; //disable
   }
-  disableSelectLeft(valueRight){
-    if(valueRight !== this.state.searchTypeRight) {
-      return false;
+  
+  disableSelectRight(valueRight){
+    if(valueRight !== this.state.searchTypeLeft) {
+      return false; //enable
     }
-    return true;
+    return true; //disable
   }
 
   render() {
@@ -147,6 +152,7 @@ class CurrencyInputs extends Component {
             </div>
             <div className="form-group align">
               <input 
+                disabled
                 type="text"
                 value={this.state.calcultedValue}
                 className="form-control currency-input" 
@@ -163,4 +169,4 @@ class CurrencyInputs extends Component {
     );
   }
 }
-export default CurrencyInputs;
+export default CurrencyForm;

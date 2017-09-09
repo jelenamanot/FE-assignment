@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
+import './AppStyle.css';
 
 import CurrencyService from './Service';
-import CurrencyInputs from './CurrencyInputs';
+import CurrencyForm from './CurrencyForm';
 
 class App extends Component {
 
@@ -31,7 +31,7 @@ class App extends Component {
         <h1>Currency Converter</h1>
         <p>On: {this.state.date}. </p>
 
-        <CurrencyInputs 
+        <CurrencyForm 
           eur={this.state.eur.sre}
           usd={this.state.usd.sre}
         />
